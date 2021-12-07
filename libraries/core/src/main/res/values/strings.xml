@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="text_empty" />
+
+    <!--    setting-->
+    <string name="ok">はい</string>
+    <string name="cancel">キャンセル</string>
+    <string name="setting">設定</string>
+
+    <string name="support">サポート</string>
+    <!--    <string name="support_information">サポート情報</string>-->
+    <string name="help">ヘルプ</string>
+    <string name="guid_to_use_app">このアプリの使い方</string>
+    <string name="privacy_policy">プライバシーポリシー</string>
+
+    <string name="app_info">アプリの情報</string>
+    <string name="version">バージョン</string>
+    <string name="term_of_service">利用規約</string>
+
+    <string name="not_connected_internet">ネットワーク接続をご確認ください。</string>
+    <string name="bulk_packing">一括パッキング</string>
+</resources>

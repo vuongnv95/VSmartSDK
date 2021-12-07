@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/device_navigation"
+    app:startDestination="@id/listDeviceFragment">
+
+    <fragment
+        android:id="@+id/listDeviceFragment"
+        android:name="com.example.setting.ui.list_device.ListDeviceFragment"
+        android:label="ListDeviceFragment" />
+</navigation>
