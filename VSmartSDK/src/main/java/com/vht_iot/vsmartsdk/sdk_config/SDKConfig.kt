@@ -1,5 +1,6 @@
 package com.vht_iot.vsmartsdk.sdk_config
 
+import com.vht_iot.vsmartsdk.future.user_manager.UserManager
 import com.vht_iot.vsmartsdk.network.connect.ApiInterface
 import com.vht_iot.vsmartsdk.network.connect.module.ApiModule
 
@@ -15,9 +16,11 @@ class SDKConfig {
          * false: debug mode disable
          */
         var debugMode = false
+        var sdkConfigData: SDKConfigData? = null
         internal var apiInterface: ApiInterface? = null
 
         fun startWithAppId(sdkConfig: SDKConfigData) {
+            sdkConfigData = sdkConfig
             apiInterface =
                 ApiModule.getInstance(sdkConfig.application, sdkConfig.url).provideApiInterface()
         }
@@ -30,5 +33,9 @@ class SDKConfig {
                 instance ?: SDKConfig()
             }
 
+    }
+
+    fun onDestroy(){
+        UserManager.getInstance().onDestroy()
     }
 }

@@ -23,5 +23,16 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_loginFragment_to_device_navigation, bundle)
     }
 
+    override fun openListDeviceToStatisticScreen(bundle: Bundle?) {
+        openScreen(R.id.action_listDeviceFragment_to_statisticDeviceFragment, bundle)
+    }
+
+    override fun openSettingToRegisterScreen(bundle: Bundle?) {
+        openScreen(R.id.action_settingFragment_to_user_navigation, bundle)
+    }
+
+    override fun openListDeviceSettingFragment(bundle: Bundle?) {
+        openScreen(R.id.action_listDeveice_to_settingFragment, bundle)
+    }
 
 }

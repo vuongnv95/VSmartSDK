@@ -8,6 +8,15 @@
         android:paddingTop="48dp"
         android:background="@color/background_common">
 
+        <ImageView
+            android:id="@+id/settingIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="24dp"
+            android:src="@drawable/ic_setting"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/titleDevice"
             style="@style/text_light_bold"

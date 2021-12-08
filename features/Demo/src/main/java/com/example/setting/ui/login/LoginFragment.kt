@@ -8,7 +8,6 @@ import com.example.core.utils.prefetcher.PrefetchRecycledViewPool
 import com.example.setting.DeviceNavigation
 import com.example.setting.R
 import com.example.setting.databinding.FragmentLoginBinding
-import com.vht_iot.vsmartsdk.future.user_manager.UserManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -56,24 +55,32 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Coro
                 ).show()
                 return@setOnClickListener
             }
-            UserManager.getInstance().login(
+            viewModel.handleLogin(
                 requireContext(),
                 binding.inputEmailEdt.text.toString(),
-                binding.inputPassEdt.text.toString(),
-                sucess = {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        appNavigation.openLoginToListDeviceScreen()
-                    }
-                },
-                failt = {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        Toast.makeText(
-                            requireContext(),
-                            it.exception,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                })
+                binding.inputPassEdt.text.toString()
+            )
+        }
+
+        binding.registerTv.setOnClickListener {
+            if (!isDoubleClick) {
+                appNavigation.openSettingToRegisterScreen()
+            }
+        }
+    }
+
+    override fun bindingStateView() {
+        super.bindingStateView()
+        viewModel.statusLogin.observe(this) {
+            if (it) {
+                appNavigation.openLoginToListDeviceScreen()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Có lỗi xảy ra.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 }

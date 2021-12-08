@@ -8,7 +8,7 @@ data class LoginResponse(
     val rt: String,
     val region: String,
     val token: String,
-    @SerializedName("devicetoken")
+    @SerializedName("device_token")
     val deviceToken: String,
     @SerializedName("ezviztoken")
     val ezvizToken: String,

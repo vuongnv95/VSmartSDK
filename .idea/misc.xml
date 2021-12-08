@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="features/Demo/src/main/res/drawable/ic_setting.xml" value="0.37552083333333336" />
+        <entry key="features/Demo/src/main/res/layout/fragment_list_device.xml" value="0.359375" />
+        <entry key="features/Demo/src/main/res/layout/fragment_login.xml" value="0.375" />
+        <entry key="features/Demo/src/main/res/layout/fragment_register.xml" value="0.296875" />
+        <entry key="features/Demo/src/main/res/layout/fragment_setting.xml" value="0.359375" />
+        <entry key="features/Demo/src/main/res/layout/fragment_statistic_device.xml" value="0.375" />
+        <entry key="features/Demo/src/main/res/layout/item_device.xml" value="0.359375" />
+        <entry key="features/Demo/src/main/res/layout/item_setting.xml" value="0.359375" />
+      </map>
+    </option>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nameTv"
+            style="@style/text_bold_14"
+            android:layout_marginTop="10dp"
+            android:gravity="start"
+            android:singleLine="true"
+            android:textColor="@color/color_323336"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Camera" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/gray"
+            app:layout_constraintTop_toBottomOf="@+id/nameTv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

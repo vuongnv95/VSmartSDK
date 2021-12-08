@@ -6,5 +6,6 @@ data class SDKConfigData(
     val application: Application,
     val url: String,
     val appId: String,
-    val sceretKey: String
+    val adminId: String,
+    val adminPassword: String
 )

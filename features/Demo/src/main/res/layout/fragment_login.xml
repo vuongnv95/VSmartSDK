@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:text="0356573351"
+            android:text="smarthome@viettel.com.vn"
             android:id="@+id/inputEmailEdt"
             style="@style/LoginInputBox"
             android:layout_width="match_parent"
@@ -38,7 +38,7 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/inputPassEdt"
-            android:text="Vht@123"
+            android:text="test1a@"
             style="@style/LoginInputBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,6 +63,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/inputPassEdt" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/registerTv"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginBtn"
+            android:text="@string/register"
+            android:padding="12dp"
+            android:gravity="center"
+            android:textColor="@color/color_title_login"
+            android:layout_height="wrap_content"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

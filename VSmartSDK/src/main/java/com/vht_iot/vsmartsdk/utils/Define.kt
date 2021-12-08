@@ -34,6 +34,10 @@ class Define {
         companion object{
             const val PARAM_IDENTIFIER = "identifier"
             const val PARAM_PASSWORD = "password"
+            const val PARAM_EMAIL = "email"
+            const val PARAM_PHONE = "phone"
+            const val PARAM_PROJECT_ID = "project_id"
+            const val PARAM_OTP = "otp"
         }
     }
 }

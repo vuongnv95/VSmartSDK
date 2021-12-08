@@ -7,5 +7,14 @@
     <fragment
         android:id="@+id/listDeviceFragment"
         android:name="com.example.setting.ui.list_device.ListDeviceFragment"
-        android:label="ListDeviceFragment" />
+        android:label="ListDeviceFragment" >
+        <action
+            android:id="@+id/action_listDeviceFragment_to_statisticDeviceFragment"
+            app:destination="@id/statisticDeviceFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/statisticDeviceFragment"
+        android:name="com.example.setting.ui.device_detail.StatisticDeviceFragment"
+        android:label="StatisticDeviceFragment" />
 </navigation>

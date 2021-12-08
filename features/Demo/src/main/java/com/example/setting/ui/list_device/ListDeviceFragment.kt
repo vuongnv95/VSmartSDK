@@ -24,7 +24,7 @@ class ListDeviceFragment : BaseFragment<FragmentListDeviceBinding, ListDeviceMod
     val deviceAdapter: DeviceAdapter by lazy {
         DeviceAdapter({
             if (!isDoubleClick) {
-
+                appNavigation.openListDeviceToStatisticScreen()
             }
         })
     }
@@ -33,6 +33,15 @@ class ListDeviceFragment : BaseFragment<FragmentListDeviceBinding, ListDeviceMod
         super.initView(savedInstanceState)
         binding.deviceRv.adapter = deviceAdapter
         viewModel.loadDataDevice()
+    }
+
+    override fun setOnClick() {
+        super.setOnClick()
+        binding.settingIv.setOnClickListener {
+            if (!isDoubleClick) {
+                appNavigation.openListDeviceSettingFragment()
+            }
+        }
     }
 
     override fun bindingAction() {
