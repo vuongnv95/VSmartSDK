@@ -8,7 +8,7 @@ import com.vht_iot.vsmartsdk.network.connect.ApiInterface
 import com.vht_iot.vsmartsdk.network.connect.NetworkEvent
 import com.vht_iot.vsmartsdk.network.connect.NetworkInterceptor
 import com.vht_iot.vsmartsdk.network.connect.TokenAuthenticator
-import com.vht_iot.vsmartsdk.utils.Define
+import com.vht_iot.vsmartsdk.utils.VDefine
 import com.viettel.vht.core.pref.AppPreferences
 import okhttp3.Cache
 import okhttp3.Interceptor
@@ -59,7 +59,21 @@ class ApiModule(private val context: Context, private val url: String) {
             .cache(provideCache())
             .addInterceptor(Interceptor { chain: Interceptor.Chain ->
                 val request =
-                    if (!TextUtils.isEmpty(AppPreferences.getInstance(context).getToken())) {
+                    if (!TextUtils.isEmpty(
+                            AppPreferences.getInstance(context).getAddminToken()
+                        ) && VDefine.useAddminToken
+                    ) {
+                        VDefine.useAddminToken = false
+                        chain.request()
+                            .newBuilder()
+                            .header("Content-Type", "application/json")
+                            .header("Content-Type", "text/plain; charset=utf-8")
+                            .addHeader(
+                                "Authorization",
+                                AppPreferences.getInstance(context).getAddminToken()!!
+                            )
+                            .build()
+                    } else if (!TextUtils.isEmpty(AppPreferences.getInstance(context).getToken())) {
                         chain.request()
                             .newBuilder()
                             .header("Content-Type", "application/json")
@@ -81,9 +95,9 @@ class ApiModule(private val context: Context, private val url: String) {
             .addInterceptor(loggingInterceptor)
             .addInterceptor(providerNetworkInterceptor())
             .authenticator(providerAuthenticator())
-            .connectTimeout(Define.ConfigNetwork.DEFAULT_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .readTimeout(Define.ConfigNetwork.DEFAULT_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .writeTimeout(Define.ConfigNetwork.DEFAULT_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .connectTimeout(VDefine.ConfigNetwork.DEFAULT_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .readTimeout(VDefine.ConfigNetwork.DEFAULT_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .writeTimeout(VDefine.ConfigNetwork.DEFAULT_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .build()
     }
 

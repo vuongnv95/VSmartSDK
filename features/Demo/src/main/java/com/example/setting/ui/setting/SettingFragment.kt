@@ -32,7 +32,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>()
     val settingAdapter: SettingAdapter by lazy {
         SettingAdapter({
             if (!isDoubleClick) {
-                appNavigation.openSettingToRegisterScreen()
+                appNavigation.openLoginToRegisterScreen()
             }
         })
     }

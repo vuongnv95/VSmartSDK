@@ -10,6 +10,8 @@ data class LoginResponse(
     val token: String,
     @SerializedName("device_token")
     val deviceToken: String,
+    @SerializedName("user_id")
+    val userId: String,
     @SerializedName("ezviztoken")
     val ezvizToken: String,
     @SerializedName("area_domain")

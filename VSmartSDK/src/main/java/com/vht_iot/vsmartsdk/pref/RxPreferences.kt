@@ -8,4 +8,6 @@ interface RxPreferences {
     fun getEmail(): String?
     fun getPassword(): String?
     fun setUserToken(userToken: String, deviceToken: String = "")
+    fun setAddminToken(token: String)
+    fun getAddminToken(): String?
 }

@@ -15,7 +15,7 @@ class HandleError {
                     failt(
                         ResultApi.VSmartError(
                             e.code(),
-                            e.message()
+                            e.response()?.errorBody()?.byteString()?.utf8() ?: ""
                         )
                     )
                 } else {

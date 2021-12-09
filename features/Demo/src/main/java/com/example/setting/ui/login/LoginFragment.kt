@@ -8,6 +8,7 @@ import com.example.core.utils.prefetcher.PrefetchRecycledViewPool
 import com.example.setting.DeviceNavigation
 import com.example.setting.R
 import com.example.setting.databinding.FragmentLoginBinding
+import com.vht_iot.vsmartsdk.network.data.Status
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -39,7 +40,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Coro
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-
     }
 
     override fun setOnClick() {
@@ -64,20 +64,26 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Coro
 
         binding.registerTv.setOnClickListener {
             if (!isDoubleClick) {
-                appNavigation.openSettingToRegisterScreen()
+                appNavigation.openLoginToRegisterScreen()
+            }
+        }
+
+        binding.forgetTv.setOnClickListener {
+            if (!isDoubleClick) {
+                appNavigation.openLoginToForgetPasswordScreen()
             }
         }
     }
 
     override fun bindingStateView() {
         super.bindingStateView()
-        viewModel.statusLogin.observe(this) {
-            if (it) {
+        viewModel.responseLogin.observe(viewLifecycleOwner) {
+            if (it.status == Status.SUCCESS) {
                 appNavigation.openLoginToListDeviceScreen()
             } else {
                 Toast.makeText(
                     requireContext(),
-                    "Có lỗi xảy ra.",
+                    it.exception,
                     Toast.LENGTH_SHORT
                 ).show()
             }

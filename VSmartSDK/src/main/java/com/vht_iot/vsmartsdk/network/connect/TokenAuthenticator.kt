@@ -2,7 +2,7 @@ package com.vht_iot.vsmartsdk.network.connect
 
 import com.google.gson.Gson
 import com.vht_iot.vsmartsdk.network.data.response.LoginResponse
-import com.vht_iot.vsmartsdk.utils.Define
+import com.vht_iot.vsmartsdk.utils.VDefine
 import com.viettel.vht.core.pref.RxPreferences
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import okhttp3.Authenticator
@@ -25,7 +25,7 @@ class TokenAuthenticator constructor(
 
     @ExperimentalCoroutinesApi
     override fun authenticate(route: Route?, response: Response): Request? {
-        val refreshResult = refreshToken("${Define.ConfigSDK.BASE_URL}${Define.EndPointBE.LOGIN}")
+        val refreshResult = refreshToken("${VDefine.ConfigSDK.BASE_URL}${VDefine.EndPointBE.LOGIN}")
         if (refreshResult)
             return response.request.newBuilder()
                 .header("Authorization", rxPreferences.getToken() ?: "")
@@ -47,8 +47,8 @@ class TokenAuthenticator constructor(
             useCaches = false
         }
         var jsonObject = JSONObject()
-        jsonObject.put(Define.PARAM_IDENTIFIER, rxPreferences.getEmail())
-        jsonObject.put(Define.PARAM_PASSWORD, rxPreferences.getPassword())
+        jsonObject.put(VDefine.PARAM_IDENTIFIER, rxPreferences.getEmail())
+        jsonObject.put(VDefine.PARAM_PASSWORD, rxPreferences.getPassword())
         val urlParameters = jsonObject.toString()
         urlConnection.doOutput = true
         DataOutputStream(urlConnection.outputStream).apply {

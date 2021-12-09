@@ -11,7 +11,6 @@ import com.example.setting.databinding.FragmentRegisterBinding
 import com.vht_iot.vsmartsdk.network.data.Status
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -27,7 +26,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-
     }
 
     override fun setOnClick() {
@@ -38,6 +36,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
             }
             val identity = binding.inputEmailEdt.text?.trim().toString()
             val pass = binding.inputPassEdt.text?.trim().toString()
+            val code = binding.inputPasscodeEdt.text?.trim().toString()
             if (identity.isEmpty() || pass.isEmpty()
             ) {
                 Toast.makeText(
@@ -48,9 +47,18 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
                 return@setOnClickListener
             }
             if (Patterns.PHONE.matcher(identity).matches()) {
-                viewModel.handleRegisterPhone(
+                if (code.isEmpty()){
+                    Toast.makeText(
+                        requireContext(),
+                        "Vui lòng lấy thông tin mã code.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+                viewModel.handleRegisterWithPhone(
                     identity,
-                    pass
+                    pass,
+                    code
                 )
             } else if (Patterns.EMAIL_ADDRESS.matcher(identity).matches()) {
                 viewModel.handleRegisterEmail(
@@ -66,6 +74,24 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
             }
 
         }
+
+
+        binding.passCodeBtn.setOnClickListener {
+            val identity = binding.inputEmailEdt.text?.trim().toString()
+            if (!isDoubleClick) {
+                if (!Patterns.PHONE.matcher(identity).matches()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Chức năng này chỉ dành cho đăng kí bằng số điện thoại",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+                viewModel.sendVerificationCode(
+                    identity
+                )
+            }
+        }
     }
 
     override fun bindingStateView() {
@@ -79,6 +105,23 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
                 ).show()
                 appNavigation.navigateUp()
             } else {
+                Toast.makeText(
+                    requireContext(),
+                    it.exception,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        viewModel.registerCode.observe(this) {
+            if (it.status == Status.SUCCESS) {
+                Toast.makeText(
+                    requireContext(),
+                    "Gửi mã thành công!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+
                 Toast.makeText(
                     requireContext(),
                     it.exception,

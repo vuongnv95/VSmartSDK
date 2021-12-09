@@ -23,6 +23,13 @@ class SDKConfig {
             sdkConfigData = sdkConfig
             apiInterface =
                 ApiModule.getInstance(sdkConfig.application, sdkConfig.url).provideApiInterface()
+            UserManager.getInstance().loginAddmin(
+                sdkConfig.application,
+                "smarthome@viettel.com.vn", "test1a@",
+                sucess = {
+                },
+                failt = {
+                })
         }
 
         @Volatile

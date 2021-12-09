@@ -1,4 +1,5 @@
 <resources>
 
     <string name="register"><u>Đăng kí ngay!</u></string>
+    <string name="forget_pass"><u>Quên mật khẩu!</u></string>
 </resources>

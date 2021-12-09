@@ -2,12 +2,14 @@ package com.vht_iot.vsmartsdk.future.user_manager
 
 import android.content.Context
 import android.util.Log
+import com.vht_iot.vsmartsdk.future.group_manager.GroupManager
 import com.vht_iot.vsmartsdk.network.connect.ApiInterface
 import com.vht_iot.vsmartsdk.network.data.ErrorCode
 import com.vht_iot.vsmartsdk.network.data.ResultApi
+import com.vht_iot.vsmartsdk.network.data.VOTPPhoneResponse
 import com.vht_iot.vsmartsdk.sdk_config.SDKConfig
-import com.vht_iot.vsmartsdk.utils.Define
 import com.vht_iot.vsmartsdk.utils.HandleError
+import com.vht_iot.vsmartsdk.utils.VDefine
 import com.viettel.vht.core.pref.AppPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -74,8 +76,8 @@ class UserManager() {
         job = CoroutineScope(Dispatchers.IO).launch {
             try {
                 val data = mutableMapOf<String, String>()
-                data.put(Define.ParamApi.PARAM_IDENTIFIER, phone)
-                data.put(Define.ParamApi.PARAM_PASSWORD, pass)
+                data.put(VDefine.ParamApi.PARAM_IDENTIFIER, phone)
+                data.put(VDefine.ParamApi.PARAM_PASSWORD, pass)
                 val body = createBodyMap(data)
                 val loginResponse = apiInterface?.login(body)
                 loginResponse?.let {
@@ -83,13 +85,46 @@ class UserManager() {
                     if (SDKConfig.debugMode) {
                         Log.d(TAG, "login() called success : ${it}")
                     }
+//                    sucess(ResultApi.VSmartSuccess(loginResponse))
+
+                    //create group
+                    GroupManager.getInstance().getGroupByName(
+                        loginResponse.userId,
+                        phone,
+                        VDefine.EntityType.DEVICE,
+                        sucess, failt
+                    )
                 }
-                sucess(ResultApi.VSmartSuccess(""))
+//                sucess(ResultApi.VSmartSuccess(loginResponse))
             } catch (e: Exception) {
                 HandleError.handCommonError(e, failt)
                 if (SDKConfig.debugMode) {
                     Log.d(TAG, "login() called err :$e")
                 }
+            }
+        }
+    }
+
+    fun loginAddmin(
+        context: Context,
+        phone: String,
+        pass: String,
+        sucess: (ResultApi<String>) -> Unit,
+        failt: (ResultApi<String>) -> Unit
+    ) {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val data = mutableMapOf<String, String>()
+                data.put(VDefine.ParamApi.PARAM_IDENTIFIER, phone)
+                data.put(VDefine.ParamApi.PARAM_PASSWORD, pass)
+                val body = createBodyMap(data)
+                val loginResponse = apiInterface?.login(body)
+                loginResponse?.let {
+                    AppPreferences.getInstance(context).setAddminToken(it.token)
+                    sucess(ResultApi.VSmartSuccess(it.token))
+                }
+            } catch (e: Exception) {
+                HandleError.handCommonError(e, failt)
             }
         }
     }
@@ -106,62 +141,69 @@ class UserManager() {
         return body
     }
 
+//    /**
+//     * when receive code from phone, handle verify to server.
+//     */
+//    fun sendVerificationCode(
+//        phone: String,
+//        type: String,
+//        sucess: (ResultApi<String>) -> Unit,
+//        failt: (ResultApi<String>) -> Unit
+//    ) {
+//        job = CoroutineScope(Dispatchers.IO).launch {
+//            try {
+//                apiInterface?.sendVerificationCode(phone, type)
+//                sucess(ResultApi.VSmartSuccess(""))
+//                if (SDKConfig.debugMode) {
+//                    Log.d(TAG, "sendVerificationCode() called success")
+//                }
+//            } catch (e: Exception) {
+//                if (SDKConfig.debugMode) {
+//                    Log.d(TAG, "sendVerificationCode() called err :$e")
+//                }
+//                HandleError.handCommonError(e, failt)
+//            }
+//        }
+//    }
+//
+
     /**
      * when receive code from phone, handle verify to server.
      */
     fun sendVerificationCode(
         phone: String,
-        type: String,
+        type: Int,
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
         job = CoroutineScope(Dispatchers.IO).launch {
             try {
-                apiInterface?.sendVerificationCode(phone, type)
-                sucess(ResultApi.VSmartSuccess(""))
-                if (SDKConfig.debugMode) {
-                    Log.d(TAG, "sendVerificationCode() called success")
-                }
-            } catch (e: Exception) {
-                if (SDKConfig.debugMode) {
-                    Log.d(TAG, "sendVerificationCode() called err :$e")
-                }
-                HandleError.handCommonError(e, failt)
-            }
-        }
-    }
-
-    fun onDestroy() {
-        job?.cancel()
-    }
-
-    /**
-     * handle register sub user with phone
-     */
-    fun registerUserWithPhone(
-        phone: String,
-        pass: String,
-        projectId: String,
-        sucess: (ResultApi<String>) -> Unit,
-        failt: (ResultApi<String>) -> Unit
-    ) {
-        job = CoroutineScope(Dispatchers.IO).launch {
-            try {
+                VDefine.useAddminToken = true
                 val data = mutableMapOf<String, String>()
-                data.put(Define.ParamApi.PARAM_PHONE, phone)
-                data.put(Define.ParamApi.PARAM_PROJECT_ID, projectId)
+                data.put(VDefine.ParamApi.PARAM_PHONE, phone)
+                data.put(VDefine.ParamApi.PARAM_PROJECT_ID, SDKConfig.sdkConfigData?.appId ?: "")
                 val body = createBodyMap(data)
-                val registerResponse = apiInterface?.registerUserWithPhone(body)
-                if (registerResponse != null) {
-                    if (SDKConfig.debugMode) {
-                        Log.d(TAG, "registerUser() called success : ${registerResponse}")
+                var verifyCodeResponse: VOTPPhoneResponse? = null
+                when (type) {
+                    VDefine.OTPType.RESET_PASSWORD ->
+                        verifyCodeResponse = apiInterface?.sendVerificationCodeForgetPassword(body)
+                    else->{
+                        verifyCodeResponse = apiInterface?.sendVerificationCodeRegister(body)
                     }
-                    setPassUser(phone, projectId, pass, registerResponse.otp, sucess, failt)
+                }
+
+                if (verifyCodeResponse != null) {
+                    if (SDKConfig.debugMode) {
+                        Log.d(TAG, "registerUser() called success : ${verifyCodeResponse}")
+                    }
+                    sucess(
+                        ResultApi.VSmartSuccess("")
+                    )
                 } else {
                     failt(
                         ResultApi.VSmartError(
                             ErrorCode.ERROR_SERVER,
-                            "Không thể thực hiện đăng kí"
+                            "Không thể lấy thông tin code"
                         )
                     )
                 }
@@ -175,25 +217,29 @@ class UserManager() {
         }
     }
 
-    private fun setPassUser(
+    /**
+     * use otp register to register account with phone.
+     * handle register sub user with phone.
+     */
+    fun register(
         phone: String,
-        projectId: String,
-        pass: String,
+        password: String,
         otp: String,
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
         job = CoroutineScope(Dispatchers.IO).launch {
             try {
+                VDefine.useAddminToken = true
                 val data = mutableMapOf<String, String>()
-                data.put(Define.ParamApi.PARAM_PHONE, phone)
-                data.put(Define.ParamApi.PARAM_PROJECT_ID, projectId)
-                data.put(Define.ParamApi.PARAM_PASSWORD, pass)
-                data.put(Define.ParamApi.PARAM_OTP, otp)
+                data.put(VDefine.ParamApi.PARAM_PHONE, phone)
+                data.put(VDefine.ParamApi.PARAM_PROJECT_ID, SDKConfig.sdkConfigData?.appId ?: "")
+                data.put(VDefine.ParamApi.PARAM_PASSWORD, password)
+                data.put(VDefine.ParamApi.PARAM_OTP, otp)
                 val body = createBodyMap(data)
                 val passwordResponse = apiInterface?.registerUserWithPhone(body)
                 if (SDKConfig.debugMode) {
-                    Log.d(TAG, "setPassUser() called success")
+                    Log.d(TAG, "setPassUser() called success${passwordResponse}")
                 }
                 sucess(
                     ResultApi.VSmartSuccess("")
@@ -209,22 +255,22 @@ class UserManager() {
 
 
     /**
-     * handle register sub user with phone
+     * handle register sub user with email
      */
     fun registerUserWithEmail(
         email: String,
         pass: String,
-        projectId: String,
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
         job = CoroutineScope(Dispatchers.IO).launch {
             try {
                 val data = mutableMapOf<String, String>()
-                data.put(Define.ParamApi.PARAM_EMAIL, email)
-                data.put(Define.ParamApi.PARAM_PROJECT_ID, projectId)
-                data.put(Define.ParamApi.PARAM_PASSWORD, pass)
+                data.put(VDefine.ParamApi.PARAM_EMAIL, email)
+                data.put(VDefine.ParamApi.PARAM_PROJECT_ID, SDKConfig.sdkConfigData?.appId ?: "")
+                data.put(VDefine.ParamApi.PARAM_PASSWORD, pass)
                 val body = createBodyMap(data)
+                VDefine.PARAM_IDENTIFIER
                 val registerResponse = apiInterface?.registerUserWithEmail(body)
                 if (registerResponse != null) {
                     if (SDKConfig.debugMode) {
@@ -251,5 +297,9 @@ class UserManager() {
                 }
             }
         }
+    }
+
+    fun onDestroy() {
+        job?.cancel()
     }
 }

@@ -50,6 +50,20 @@
             app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_user_navigation"
+            app:destination="@id/user_navigation"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_loginFragment_to_forgetPasswordFragment"
+            app:destination="@id/forgetPasswordFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <action
@@ -68,15 +82,11 @@
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.setting.ui.setting.SettingFragment"
-        android:label="SettingFragment">
-        <action
-            android:id="@+id/action_settingFragment_to_user_navigation"
-            app:destination="@id/user_navigation"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
-    </fragment>
+        android:label="SettingFragment"/>
+    <fragment
+        android:id="@+id/forgetPasswordFragment"
+        android:name="com.example.setting.ui.create_user.forget_pass.ForgetPasswordFragment"
+        android:label="ForgetPasswordFragment" />
 
 
 </navigation>

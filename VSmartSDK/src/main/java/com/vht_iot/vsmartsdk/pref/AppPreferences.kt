@@ -2,7 +2,7 @@ package com.viettel.vht.core.pref
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.vht_iot.vsmartsdk.utils.Define
+import com.vht_iot.vsmartsdk.utils.VDefine
 
 
 class AppPreferences  constructor(
@@ -15,6 +15,7 @@ class AppPreferences  constructor(
         const val PREF_PARAM_EMAIL = "PREF_PARAM_EMAIL"
         const val PREF_PARAM_PASSWORD = "PREF_PARAM_PASSWORD"
         const val PREF_PARAM_DEVICE_TOKEN = "PREF_PARAM_DEVICE_TOKEN"
+        const val PREF_PARAM_ADDMIN_TOKEN = "PREF_PARAM_ADDMIN_TOKEN"
 
         @Volatile
         private var instance: AppPreferences? = null
@@ -26,7 +27,7 @@ class AppPreferences  constructor(
     }
 
     private val mPrefs: SharedPreferences = context.getSharedPreferences(
-        Define.PREF_FILE_NAME,
+        VDefine.PREF_FILE_NAME,
         Context.MODE_PRIVATE
     )
 
@@ -55,4 +56,11 @@ class AppPreferences  constructor(
         }
     }
 
+    override fun setAddminToken(token: String) {
+        val editor: SharedPreferences.Editor = mPrefs.edit()
+        editor.putString(PREF_PARAM_ADDMIN_TOKEN, PARAM_BEARER + token)
+        editor.apply()
+    }
+
+    override fun getAddminToken(): String? = get(PREF_PARAM_ADDMIN_TOKEN)
 }
