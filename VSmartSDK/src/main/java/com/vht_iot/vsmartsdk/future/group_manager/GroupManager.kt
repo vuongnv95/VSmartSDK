@@ -17,12 +17,15 @@ import org.json.JSONObject
 import retrofit2.HttpException
 
 class GroupManager {
-    private var job: Job? = null
+    private var job: Job = Job()
     internal var apiInterface: ApiInterface? = null
 
     init {
         apiInterface = SDKConfig.apiInterface
     }
+
+    val scope = CoroutineScope(Dispatchers.IO + job)
+    val mainScope = CoroutineScope(Dispatchers.Main + job)
 
     companion object {
         @Volatile
@@ -41,7 +44,7 @@ class GroupManager {
         failt: (ResultApi<String>) -> Unit
     ) {
         VDefine.useAddminToken = true
-        job = CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             try {
                 val registerResponse =
                     apiInterface?.getGroupByName(groupName, entityType)
@@ -52,18 +55,22 @@ class GroupManager {
 //                            "getGroupByName() called success : ${registerResponse}"
 //                        )
 //                    }
-                    sucess(
-                        ResultApi.VSmartSuccess(
-                            ""
+                    mainScope.launch {
+                        sucess(
+                            ResultApi.VSmartSuccess(
+                                ""
+                            )
                         )
-                    )
+                    }
                 } else {
-                    failt(
-                        ResultApi.VSmartError(
-                            ErrorCode.ERROR_SERVER,
-                            "Không thể lấy thông tin group"
+                    mainScope.launch {
+                        failt(
+                            ResultApi.VSmartError(
+                                ErrorCode.ERROR_SERVER,
+                                "Không thể lấy thông tin group"
+                            )
                         )
-                    )
+                    }
                 }
 
             } catch (e: Exception) {
@@ -88,7 +95,7 @@ class GroupManager {
         failt: (ResultApi<String>) -> Unit
     ) {
         VDefine.useAddminToken = true
-        job = CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             try {
                 val data = mutableMapOf<String, String>()
                 data.put(VDefine.ParamApi.PARAM_NAME, groupName)
@@ -119,17 +126,19 @@ class GroupManager {
         failt: (ResultApi<String>) -> Unit
     ) {
         VDefine.useAddminToken = true
-        job = CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             try {
                 val data = mutableMapOf<String, String>()
                 data.put(VDefine.ParamApi.PARAM_GROUP_ID, groupId)
                 data.put(VDefine.ParamApi.PARAM_USER_ID, userId)
                 val roleResponse = apiInterface?.createRole(createBodyMap(data))
-                sucess(
-                    ResultApi.VSmartSuccess(
-                        ""
+                mainScope.launch {
+                    sucess(
+                        ResultApi.VSmartSuccess(
+                            ""
+                        )
                     )
-                )
+                }
             } catch (e: Exception) {
                 HandleError.handCommonError(e, failt)
             }
@@ -149,7 +158,7 @@ class GroupManager {
     }
 
     fun onDestroy() {
-        job?.cancel()
+        job.cancel()
     }
 
 }

@@ -23,12 +23,15 @@ import org.json.JSONObject
  * Quản lý thông tin người dùng.
  */
 class UserManager() {
-    private var job: Job? = null
+    private var job = Job()
     internal var apiInterface: ApiInterface? = null
 
     init {
         apiInterface = SDKConfig.apiInterface
     }
+
+    val scope = CoroutineScope(Dispatchers.IO + job)
+    val mainScope = CoroutineScope(Dispatchers.Main + job)
 
     companion object {
         @Volatile
@@ -47,10 +50,12 @@ class UserManager() {
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
-        job = CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             try {
                 apiInterface?.logout()
-                sucess(ResultApi.VSmartSuccess(""))
+                mainScope.launch {
+                    sucess(ResultApi.VSmartSuccess(""))
+                }
                 if (SDKConfig.debugMode) {
                     Log.d(TAG, "logout() called success")
                 }
@@ -73,7 +78,7 @@ class UserManager() {
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
-        job = CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             try {
                 val data = mutableMapOf<String, String>()
                 data.put(VDefine.ParamApi.PARAM_IDENTIFIER, phone)
@@ -112,7 +117,7 @@ class UserManager() {
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
-        job = CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             try {
                 val data = mutableMapOf<String, String>()
                 data.put(VDefine.ParamApi.PARAM_IDENTIFIER, phone)
@@ -121,7 +126,9 @@ class UserManager() {
                 val loginResponse = apiInterface?.login(body)
                 loginResponse?.let {
                     AppPreferences.getInstance(context).setAddminToken(it.token)
-                    sucess(ResultApi.VSmartSuccess(it.token))
+                    mainScope.launch {
+                        sucess(ResultApi.VSmartSuccess(it.token))
+                    }
                 }
             } catch (e: Exception) {
                 HandleError.handCommonError(e, failt)
@@ -176,7 +183,7 @@ class UserManager() {
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
-        job = CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             try {
                 VDefine.useAddminToken = true
                 val data = mutableMapOf<String, String>()
@@ -196,16 +203,21 @@ class UserManager() {
                     if (SDKConfig.debugMode) {
                         Log.d(TAG, "registerUser() called success : ${verifyCodeResponse}")
                     }
-                    sucess(
-                        ResultApi.VSmartSuccess("")
-                    )
-                } else {
-                    failt(
-                        ResultApi.VSmartError(
-                            ErrorCode.ERROR_SERVER,
-                            "Không thể lấy thông tin code"
+                    mainScope.launch {
+                        sucess(
+                            ResultApi.VSmartSuccess("")
                         )
-                    )
+                    }
+                } else {
+                    mainScope.launch {
+                        failt(
+                            ResultApi.VSmartError(
+                                ErrorCode.ERROR_SERVER,
+                                "Không thể lấy thông tin code"
+                            )
+                        )
+                    }
+
                 }
 
             } catch (e: Exception) {
@@ -228,7 +240,7 @@ class UserManager() {
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
-        job = CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             try {
                 VDefine.useAddminToken = true
                 val data = mutableMapOf<String, String>()
@@ -241,9 +253,12 @@ class UserManager() {
                 if (SDKConfig.debugMode) {
                     Log.d(TAG, "setPassUser() called success${passwordResponse}")
                 }
-                sucess(
-                    ResultApi.VSmartSuccess("")
-                )
+                mainScope.launch {
+                    sucess(
+                        ResultApi.VSmartSuccess("")
+                    )
+                }
+
             } catch (e: Exception) {
                 HandleError.handCommonError(e, failt)
                 if (SDKConfig.debugMode) {
@@ -263,7 +278,7 @@ class UserManager() {
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
-        job = CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             try {
                 val data = mutableMapOf<String, String>()
                 data.put(VDefine.ParamApi.PARAM_EMAIL, email)
@@ -276,18 +291,23 @@ class UserManager() {
                     if (SDKConfig.debugMode) {
                         Log.d(TAG, "registerUser() called success : ${registerResponse}")
                     }
-                    sucess(
-                        ResultApi.VSmartSuccess(
-                            registerResponse.identity_id
+                    mainScope.launch {
+                        sucess(
+                            ResultApi.VSmartSuccess(
+                                registerResponse.identity_id
+                            )
                         )
-                    )
+                    }
                 } else {
-                    failt(
-                        ResultApi.VSmartError(
-                            ErrorCode.ERROR_SERVER,
-                            "Không thể thực hiện đăng kí"
+                    mainScope.launch {
+                        failt(
+                            ResultApi.VSmartError(
+                                ErrorCode.ERROR_SERVER,
+                                "Không thể thực hiện đăng kí"
+                            )
                         )
-                    )
+                    }
+
                 }
 
             } catch (e: Exception) {
@@ -300,6 +320,6 @@ class UserManager() {
     }
 
     fun onDestroy() {
-        job?.cancel()
+        job.cancel()
     }
 }
