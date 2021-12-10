@@ -1,5 +1,9 @@
 package com.vht_iot.vsmartsdk.utils
 
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import org.json.JSONObject
+
 
 class VDefine {
     companion object {
@@ -42,7 +46,9 @@ class VDefine {
             const val PARAM_NAME = "name"
             const val PARAM_ENTITY_TYPE = "entity_type"
             const val PARAM_GROUP_ID = "group_id"
+            const val PARAM_ORG_ID = "org_id"
             const val PARAM_USER_ID = "user_id"
+            const val PARAM_DESCRIPTION = "description"
         }
     }
 
@@ -60,4 +66,16 @@ class VDefine {
             const val USER = "USER"
         }
     }
+}
+
+fun createBodyMap(data: MutableMap<String, String>): RequestBody {
+    val jsonObject = JSONObject()
+    for ((key, value) in data) {
+        jsonObject.put(key, value)
+    }
+    val body: RequestBody =
+        RequestBody.create(
+            "application/json".toMediaTypeOrNull(), jsonObject.toString()
+        )
+    return body
 }

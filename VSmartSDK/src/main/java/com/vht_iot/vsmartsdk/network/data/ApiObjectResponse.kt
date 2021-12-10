@@ -13,3 +13,10 @@ data class ApiException(
         @SerializedName("msg") var msg: String,
         @SerializedName("data") var dataResponse: Any
 )
+
+data class ApiArrayOrgResponse<T>(
+        @SerializedName("total") var total: Int,
+        @SerializedName("offset") var offset: Int,
+        @SerializedName("limit") var limit: Int,
+        @SerializedName("organizations") var dataResponse: List<T>,
+)

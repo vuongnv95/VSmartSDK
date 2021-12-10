@@ -17,4 +17,5 @@
         android:id="@+id/statisticDeviceFragment"
         android:name="com.example.setting.ui.device_detail.StatisticDeviceFragment"
         android:label="StatisticDeviceFragment" />
+
 </navigation>

@@ -37,7 +37,6 @@ class LoginViewModel @Inject constructor(
     fun createGroup(userId: String, phone: String, device: String) {
         isLoading.value = true
         GroupManager.getInstance().getGroupByName(
-            userId,
             phone,
             device,
             sucess = {

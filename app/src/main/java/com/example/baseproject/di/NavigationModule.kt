@@ -4,6 +4,7 @@ import com.example.baseproject.navigation.AppNavigation
 import com.example.baseproject.navigation.AppNavigatorImpl
 import com.example.core.navigationComponent.BaseNavigator
 import com.example.setting.DeviceNavigation
+import com.example.setting.HomeNavigation
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,4 +23,7 @@ abstract class NavigationModule {
 
     @Binds
     abstract fun provideDemoNavigation(navigation: AppNavigatorImpl): DeviceNavigation
+
+    @Binds
+    abstract fun provideHomeNavigation(navigation: AppNavigatorImpl): HomeNavigation
 }

@@ -42,8 +42,8 @@
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_loginFragment_to_device_navigation"
-            app:destination="@id/device_navigation"
+            android:id="@+id/action_loginFragment_to_home_navigation"
+            app:destination="@id/home_navigation"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
@@ -77,6 +77,7 @@
         app:popUpToInclusive="true" />
 
     <include app:graph="@navigation/device_navigation" />
+    <include app:graph="@navigation/home_navigation" />
     <include app:graph="@navigation/user_navigation" />
 
     <fragment
@@ -88,5 +89,13 @@
         android:name="com.example.setting.ui.create_user.forget_pass.ForgetPasswordFragment"
         android:label="ForgetPasswordFragment" />
 
-
+    <action
+        android:id="@+id/action_listFunc_to_loginFragment"
+        app:destination="@id/loginFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_in_right"
+        app:popExitAnim="@anim/slide_out_left"
+        app:popUpTo="@id/home_navigation"
+        app:popUpToInclusive="true" />
 </navigation>

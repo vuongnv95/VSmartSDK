@@ -1,9 +1,6 @@
 package com.vht_iot.vsmartsdk.network.connect
 
-import com.vht_iot.vsmartsdk.network.data.DeviceResponse
-import com.vht_iot.vsmartsdk.network.data.GroupResponse
-import com.vht_iot.vsmartsdk.network.data.RegisterWithEmailResponse
-import com.vht_iot.vsmartsdk.network.data.VOTPPhoneResponse
+import com.vht_iot.vsmartsdk.network.data.*
 import com.vht_iot.vsmartsdk.network.data.response.LoginResponse
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -37,11 +34,22 @@ interface ApiInterface {
     suspend fun getGroupByName(
         @Path("groupName") groupName: String,
         @Path("entityType") entityType: String
-    ): Any
+    ): VGroupResponse
 
     @POST("/api/groups")
-    suspend fun createGroup(@Body requestBody: RequestBody): GroupResponse
+    suspend fun createGroup(@Body requestBody: RequestBody): VGroupResponse
 
     @POST("/api/roles/customer")
     suspend fun createRole(@Body requestBody: RequestBody): Any
+
+    // organizations manager
+
+    @POST("/api/organizations")
+    suspend fun createOrganizations(@Body requestBody: RequestBody): VOrganizationResponse
+
+    @GET("/api/organizations")
+    suspend fun getOrganizations(
+        @QueryMap data: Map<String, String>
+    ): ApiArrayOrgResponse<VOrganizationResponse>
+
 }

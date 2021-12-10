@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_navigation"
+    app:startDestination="@id/listFuncFragment">
+
+    <fragment
+        android:id="@+id/listFuncFragment"
+        android:name="com.example.setting.ui.list_func.ListFuncFragment"
+        android:label="ListFuncFragment" >
+        <action
+            android:id="@+id/action_listFuncFragment_to_createHomeFragment"
+            app:destination="@id/createHomeFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_listFuncFragment_to_listHomeFragment"
+            app:destination="@id/listHomeFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/createHomeFragment"
+        android:name="com.example.setting.ui.create_home.CreateRoomFragment"
+        android:label="CreateHomeFragment" />
+    <fragment
+        android:id="@+id/listHomeFragment"
+        android:name="com.example.setting.ui.list_home.ListHomeFragment"
+        android:label="ListHomeFragment" >
+        <action
+            android:id="@+id/action_listHomeFragment_to_listRoomFragment"
+            app:destination="@id/listRoomFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/listRoomFragment"
+        android:name="com.example.setting.ui.list_room.ListRoomFragment"
+        android:label="ListRoomFragment" >
+        <action
+            android:id="@+id/action_listRoomFragment_to_createRoomFragment"
+            app:destination="@id/createRoomFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/createRoomFragment"
+        android:name="com.example.setting.ui.create_home.CreateRoomFragment"
+        android:label="ListRoomFragment" />
+
+</navigation>

@@ -9,6 +9,7 @@
         android:background="@color/background_common">
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/settingIv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,20 +24,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Danh sách thiết bị"
+            android:text="VSmart SDK"
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <LinearLayout
+            android:id="@+id/llFunc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/titleDevice">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Quản lý tài khoản"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvLogout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:text="Logout"
+                android:textColor="@color/color_title_login"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/deviceRv"
-            tools:listitem="@layout/item_device"
+            app:layout_constraintTop_toBottomOf="@+id/llFunc"
             android:layout_width="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_height="0dp"
-            android:layout_marginTop="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleDevice" />
+            tools:listitem="@layout/item_func" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

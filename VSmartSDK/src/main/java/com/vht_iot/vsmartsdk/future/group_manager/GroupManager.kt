@@ -6,6 +6,7 @@ import com.vht_iot.vsmartsdk.network.data.ErrorCode
 import com.vht_iot.vsmartsdk.network.data.ResultApi
 import com.vht_iot.vsmartsdk.sdk_config.SDKConfig
 import com.vht_iot.vsmartsdk.utils.HandleError
+import com.vht_iot.vsmartsdk.utils.VConfigUtils
 import com.vht_iot.vsmartsdk.utils.VDefine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,23 +39,24 @@ class GroupManager {
     }
 
     fun getGroupByName(
-        userId: String,
-        groupName: String, entityType: String,
+        groupName: String,
+        entityType: String,
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
         VDefine.useAddminToken = true
         scope.launch {
             try {
-                val registerResponse =
+                val groupResponse =
                     apiInterface?.getGroupByName(groupName, entityType)
-                if (registerResponse != null) {
-//                    if (SDKConfig.debugMode) {
-//                        Log.d(
-//                            GroupManager.TAG,
-//                            "getGroupByName() called success : ${registerResponse}"
-//                        )
-//                    }
+                if (groupResponse != null) {
+                    if (SDKConfig.debugMode) {
+                        Log.d(
+                            TAG,
+                            "getGroupByName() called success : ${groupResponse}"
+                        )
+                    }
+                    VConfigUtils.GROUP_PARENT = groupResponse.id
                     mainScope.launch {
                         sucess(
                             ResultApi.VSmartSuccess(
@@ -76,21 +78,22 @@ class GroupManager {
             } catch (e: Exception) {
                 if (e is HttpException) {
                     if (e.code() == ErrorCode.CODE_404) {
-                        createGroup(userId, groupName, entityType, sucess, failt)
+                        createGroup(groupName, "", entityType, sucess, failt)
                     }
                 } else {
                     HandleError.handCommonError(e, failt)
                 }
                 if (SDKConfig.debugMode) {
-                    Log.d(GroupManager.TAG, "getGroupByName() called err :$e")
+                    Log.d(TAG, "getGroupByName() called err :$e")
                 }
             }
         }
     }
 
     private fun createGroup(
-        userId: String,
-        groupName: String, entityType: String,
+        groupName: String,
+        orgId: String,
+        entityType: String,
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
@@ -100,28 +103,29 @@ class GroupManager {
                 val data = mutableMapOf<String, String>()
                 data.put(VDefine.ParamApi.PARAM_NAME, groupName)
                 data.put(VDefine.ParamApi.PARAM_ENTITY_TYPE, entityType)
+                data.put(VDefine.ParamApi.PARAM_ORG_ID, orgId)
                 data.put(VDefine.ParamApi.PARAM_PROJECT_ID, SDKConfig.sdkConfigData?.appId ?: "")
                 val groupResponse = apiInterface?.createGroup(createBodyMap(data))
                 if (groupResponse != null) {
-//                    if (SDKConfig.debugMode) {
-//                        Log.d(
-//                            GroupManager.TAG,
-//                            "createGroup() called success : ${groupResponse}"
-//                        )
-//                    }
-                    createRole(groupResponse.id, userId, sucess, failt)
+                    if (SDKConfig.debugMode) {
+                        Log.d(
+                            TAG,
+                            "createGroup() called success : ${groupResponse}"
+                        )
+                    }
+                    createRole(groupResponse.id, sucess, failt)
                 }
             } catch (e: Exception) {
                 HandleError.handCommonError(e, failt)
-//                if (SDKConfig.debugMode) {
-//                    Log.d(GroupManager.TAG, "createGroup() called err :$e")
-//                }
+                if (SDKConfig.debugMode) {
+                    Log.d(TAG, "createGroup() called err :$e")
+                }
             }
         }
     }
 
     fun createRole(
-        groupId: String, userId: String,
+        groupId: String,
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
@@ -130,7 +134,7 @@ class GroupManager {
             try {
                 val data = mutableMapOf<String, String>()
                 data.put(VDefine.ParamApi.PARAM_GROUP_ID, groupId)
-                data.put(VDefine.ParamApi.PARAM_USER_ID, userId)
+                data.put(VDefine.ParamApi.PARAM_USER_ID, VConfigUtils.USER_ID)
                 val roleResponse = apiInterface?.createRole(createBodyMap(data))
                 mainScope.launch {
                     sucess(

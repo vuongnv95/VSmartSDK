@@ -9,6 +9,7 @@ import com.vht_iot.vsmartsdk.network.data.ResultApi
 import com.vht_iot.vsmartsdk.network.data.VOTPPhoneResponse
 import com.vht_iot.vsmartsdk.sdk_config.SDKConfig
 import com.vht_iot.vsmartsdk.utils.HandleError
+import com.vht_iot.vsmartsdk.utils.VConfigUtils
 import com.vht_iot.vsmartsdk.utils.VDefine
 import com.viettel.vht.core.pref.AppPreferences
 import kotlinx.coroutines.CoroutineScope
@@ -81,6 +82,7 @@ class UserManager() {
         scope.launch {
             try {
                 val data = mutableMapOf<String, String>()
+                data.put(VDefine.ParamApi.PARAM_PROJECT_ID, VConfigUtils.APP_ID)
                 data.put(VDefine.ParamApi.PARAM_IDENTIFIER, phone)
                 data.put(VDefine.ParamApi.PARAM_PASSWORD, pass)
                 val body = createBodyMap(data)
@@ -93,10 +95,10 @@ class UserManager() {
 //                    sucess(ResultApi.VSmartSuccess(loginResponse))
 
                     //create group
+                    VConfigUtils.USER_ID = loginResponse.userId
                     GroupManager.getInstance().getGroupByName(
-                        loginResponse.userId,
                         phone,
-                        VDefine.EntityType.DEVICE,
+                        VDefine.EntityType.ORGANIZATION,
                         sucess, failt
                     )
                 }
