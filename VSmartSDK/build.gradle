@@ -65,9 +65,9 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
 
-                groupId = 'com.viettel.vsmart'
-                artifactId = 'sdk-smart-home-compose'
-                version = '1.0'
+                groupId = 'com.vht_iot.vsmartsdk'
+                artifactId = 'final'
+                version = '0.2'
             }
         }
     }
