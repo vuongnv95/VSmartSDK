@@ -56,14 +56,19 @@ class GroupManager {
                             "getGroupByName() called success : ${groupResponse}"
                         )
                     }
-                    VConfigUtils.GROUP_PARENT = groupResponse.id
-                    mainScope.launch {
-                        sucess(
-                            ResultApi.VSmartSuccess(
-                                ""
+                    if (groupResponse.id.isNotEmpty()){
+                        VConfigUtils.GROUP_PARENT = groupResponse.id
+                        mainScope.launch {
+                            sucess(
+                                ResultApi.VSmartSuccess(
+                                    ""
+                                )
                             )
-                        )
+                        }
+                    }else{
+                        createGroup(groupName, "", entityType, sucess, failt)
                     }
+
                 } else {
                     mainScope.launch {
                         failt(
@@ -76,13 +81,13 @@ class GroupManager {
                 }
 
             } catch (e: Exception) {
-                if (e is HttpException) {
-                    if (e.code() == ErrorCode.CODE_404) {
-                        createGroup(groupName, "", entityType, sucess, failt)
-                    }
-                } else {
+//                if (e is HttpException) {
+//                    if (e.code() == ErrorCode.CODE_404) {
+//                        createGroup(groupName, "", entityType, sucess, failt)
+//                    }
+//                } else {
                     HandleError.handCommonError(e, failt)
-                }
+//                }
                 if (SDKConfig.debugMode) {
                     Log.d(TAG, "getGroupByName() called err :$e")
                 }

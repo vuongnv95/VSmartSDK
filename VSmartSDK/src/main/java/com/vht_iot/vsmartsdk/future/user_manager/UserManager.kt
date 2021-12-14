@@ -11,6 +11,7 @@ import com.vht_iot.vsmartsdk.sdk_config.SDKConfig
 import com.vht_iot.vsmartsdk.utils.HandleError
 import com.vht_iot.vsmartsdk.utils.VConfigUtils
 import com.vht_iot.vsmartsdk.utils.VDefine
+import com.vht_iot.vsmartsdk.utils.createBodyMap
 import com.viettel.vht.core.pref.AppPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -136,18 +137,6 @@ class UserManager() {
                 HandleError.handCommonError(e, failt)
             }
         }
-    }
-
-    private fun createBodyMap(data: MutableMap<String, String>): RequestBody {
-        val jsonObject = JSONObject()
-        for ((key, value) in data) {
-            jsonObject.put(key, value)
-        }
-        val body: RequestBody =
-            RequestBody.create(
-                "application/json".toMediaTypeOrNull(), jsonObject.toString()
-            )
-        return body
     }
 
 //    /**
