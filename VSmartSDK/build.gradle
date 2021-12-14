@@ -70,7 +70,15 @@ afterEvaluate {
 
                 groupId = 'com.vht_iot.vsmartsdk'
                 artifactId = 'final'
-                version = '0.2'
+                version = '1.01'
+            }
+
+            debug(MavenPublication) {
+                from components.debug
+
+                groupId = 'com.vht_iot.vsmartsdk'
+                artifactId = 'final'
+                version = '1.01'
             }
         }
     }
