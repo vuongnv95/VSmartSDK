@@ -82,8 +82,8 @@ class UserManager() {
     ) {
         scope.launch {
             try {
+                VDefine.useAppKeySecret = true
                 val data = mutableMapOf<String, String>()
-                data.put(VDefine.ParamApi.PARAM_PROJECT_ID, VConfigUtils.APP_ID)
                 data.put(VDefine.ParamApi.PARAM_IDENTIFIER, phone)
                 data.put(VDefine.ParamApi.PARAM_PASSWORD, pass)
                 val body = createBodyMap(data)
@@ -170,25 +170,19 @@ class UserManager() {
      */
     fun sendVerificationCode(
         phone: String,
-        type: Int,
+        type: String,
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
         scope.launch {
             try {
-                VDefine.useAddminToken = true
+                VDefine.useAppKeySecret = true
                 val data = mutableMapOf<String, String>()
                 data.put(VDefine.ParamApi.PARAM_PHONE, phone)
-                data.put(VDefine.ParamApi.PARAM_PROJECT_ID, SDKConfig.sdkConfigData?.appId ?: "")
+                data.put(VDefine.ParamApi.PARAM_OTP_TYPE, type)
                 val body = createBodyMap(data)
                 var verifyCodeResponse: VOTPPhoneResponse? = null
-                when (type) {
-                    VDefine.OTPType.RESET_PASSWORD ->
-                        verifyCodeResponse = apiInterface?.sendVerificationCodeForgetPassword(body)
-                    else->{
-                        verifyCodeResponse = apiInterface?.sendVerificationCodeRegister(body)
-                    }
-                }
+                verifyCodeResponse = apiInterface?.sendVerificationCode(body)
 
                 if (verifyCodeResponse != null) {
                     if (SDKConfig.debugMode) {
@@ -233,10 +227,9 @@ class UserManager() {
     ) {
         scope.launch {
             try {
-                VDefine.useAddminToken = true
+                VDefine.useAppKeySecret = true
                 val data = mutableMapOf<String, String>()
                 data.put(VDefine.ParamApi.PARAM_PHONE, phone)
-                data.put(VDefine.ParamApi.PARAM_PROJECT_ID, SDKConfig.sdkConfigData?.appId ?: "")
                 data.put(VDefine.ParamApi.PARAM_PASSWORD, password)
                 data.put(VDefine.ParamApi.PARAM_OTP, otp)
                 val body = createBodyMap(data)
@@ -305,6 +298,41 @@ class UserManager() {
                 HandleError.handCommonError(e, failt)
                 if (SDKConfig.debugMode) {
                     Log.d(TAG, "registerUser() called err :$e")
+                }
+            }
+        }
+    }
+
+
+    fun changePassword(
+        phone: String,
+        password: String,
+        otp: String,
+        sucess: (ResultApi<String>) -> Unit,
+        failt: (ResultApi<String>) -> Unit
+    ) {
+        scope.launch {
+            try {
+                VDefine.useAppKeySecret = true
+                val data = mutableMapOf<String, String>()
+                data.put(VDefine.ParamApi.PARAM_PHONE, phone)
+                data.put(VDefine.ParamApi.PARAM_PASSWORD, password)
+                data.put(VDefine.ParamApi.PARAM_OTP, otp)
+                val body = createBodyMap(data)
+                val passwordResponse = apiInterface?.forgotPassword(body)
+                if (SDKConfig.debugMode) {
+                    Log.d(TAG, "setPassUser() called success${passwordResponse}")
+                }
+                mainScope.launch {
+                    sucess(
+                        ResultApi.VSmartSuccess("")
+                    )
+                }
+
+            } catch (e: Exception) {
+                HandleError.handCommonError(e, failt)
+                if (SDKConfig.debugMode) {
+                    Log.d(TAG, "setPassUser() called err :$e")
                 }
             }
         }

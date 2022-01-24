@@ -44,7 +44,7 @@ class GroupManager {
         sucess: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
-        VDefine.useAddminToken = true
+//        VDefine.useAddminToken = true
         scope.launch {
             try {
                 val groupResponse =

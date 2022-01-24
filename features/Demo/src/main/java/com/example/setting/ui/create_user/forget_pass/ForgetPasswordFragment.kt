@@ -99,11 +99,11 @@ class ForgetPasswordFragment :
 
     override fun bindingStateView() {
         super.bindingStateView()
-        viewModel.statusRegister.observe(this) {
+        viewModel.statusForgotPassword.observe(this) {
             if (it.status == Status.SUCCESS) {
                 Toast.makeText(
                     requireContext(),
-                    "Đăng kí thành công!",
+                    "Đổi mật khẩu thành công!",
                     Toast.LENGTH_SHORT
                 ).show()
                 appNavigation.navigateUp()

@@ -11,14 +11,15 @@ class VDefine {
         const val PARAM_PASSWORD = "password"
         const val PARAM_IDENTIFIER = "identifier"
         var useAddminToken = false
+        var useAppKeySecret = false
         const val PREF_FILE_NAME = "SDK_IOT.Preferences"
     }
 
-    class  ConfigSDK{
-        companion object{
-            var BASE_URL = "http://116.101.122.190:4437"
-            var APP_ID = "BASE_URL"
-            var APP_SCERET_KEY = "BASE_URL"
+    class ConfigSDK {
+        companion object {
+            var BASE_URL = "http://125.212.248.229:4437"
+            var APP_KEY = "nlaDOC8uS6Xn7L0JIcPD"
+            var APP_SECRET = "yKeMoImiHp9DUXxoGpERza31xSyCWunW"
         }
     }
 
@@ -49,13 +50,14 @@ class VDefine {
             const val PARAM_ORG_ID = "org_id"
             const val PARAM_USER_ID = "user_id"
             const val PARAM_DESCRIPTION = "description"
+            const val PARAM_OTP_TYPE = "otp_type"
         }
     }
 
     class OTPType{
         companion object{
-            const val REGISTER = 0
-            const val RESET_PASSWORD = 1
+            const val REGISTER = "register"
+            const val RESET_PASSWORD = "forgot"
         }
     }
     class EntityType{

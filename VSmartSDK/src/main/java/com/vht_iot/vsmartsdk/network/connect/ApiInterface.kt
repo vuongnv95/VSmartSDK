@@ -6,7 +6,7 @@ import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiInterface {
-    @POST("/api/login")
+    @POST("/api/app/login")
     suspend fun login(@Body requestBody: RequestBody): LoginResponse
 
     @DELETE("/v2/user/logout")
@@ -15,14 +15,14 @@ interface ApiInterface {
     @GET("/api/devices")
     suspend fun getListDevice(): DeviceResponse
 
-    @POST("/api/users/otp/register")
-    suspend fun sendVerificationCodeRegister(@Body requestBody: RequestBody): VOTPPhoneResponse
+    @POST("/api/app/otp")
+    suspend fun sendVerificationCode(@Body requestBody: RequestBody): VOTPPhoneResponse
 
-    @POST("/api/users/otp/register")
-    suspend fun sendVerificationCodeForgetPassword(@Body requestBody: RequestBody): VOTPPhoneResponse
-
-    @PUT("/api/users/otp/newpassword")
+    @PUT("/api/app/vhome/register")
     suspend fun registerUserWithPhone(@Body requestBody: RequestBody): Any
+
+    @PUT("/api/app/otp/newpassword")
+    suspend fun forgotPassword(@Body requestBody: RequestBody): Object
 
     @POST("/api/users")
     suspend fun registerUserWithEmail(@Body requestBody: RequestBody): RegisterWithEmailResponse

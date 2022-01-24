@@ -73,6 +73,15 @@ class ApiModule(private val context: Context, private val url: String) {
                                 AppPreferences.getInstance(context).getAddminToken()!!
                             )
                             .build()
+                    } else if (VDefine.useAppKeySecret) {
+                        VDefine.useAppKeySecret = false
+                        chain.request()
+                            .newBuilder()
+                            .header("Content-Type", "application/json")
+                            .header("Content-Type", "text/plain; charset=utf-8")
+                            .addHeader("AppKey", VDefine.ConfigSDK.APP_KEY)
+                            .addHeader("AppSecret", VDefine.ConfigSDK.APP_SECRET)
+                            .build()
                     } else if (!TextUtils.isEmpty(AppPreferences.getInstance(context).getToken())) {
                         chain.request()
                             .newBuilder()
