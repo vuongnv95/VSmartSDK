@@ -20,7 +20,7 @@ class ListHomeViewModel @Inject constructor(
     fun loadDataRoom(orgId: String) {
         OrganizationManager.getInstance().getOrganizations(sucess = {
             viewModelScope.launch {
-                listHomeResponse.value = it.data?.dataResponse?.filter { it.org_id == orgId }
+//                listHomeResponse.value = it.data?.dataResponse?.filter { it.org_id == orgId }
             }
         }, failt = {
             errorResponse.value = it

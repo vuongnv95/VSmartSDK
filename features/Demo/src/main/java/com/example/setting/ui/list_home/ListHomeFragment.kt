@@ -24,23 +24,19 @@ class ListHomeFragment : BaseFragment<FragmentListHomeBinding, ListHomeViewModel
 
 
     val organizationAdapter: OrganizationAdapter by lazy {
-        OrganizationAdapter({
+        OrganizationAdapter {
             if (!isDoubleClick) {
                 val bundle = Bundle()
                 bundle.putSerializable(Defines.BUNDLE_ITEM_HOME, it)
                 appNavigation.openListHomeToListRoomFragment(bundle)
             }
-        })
+        }
     }
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         binding.deviceRv.adapter = organizationAdapter
         viewModel.loadDataDevice()
-    }
-
-    override fun setOnClick() {
-        super.setOnClick()
     }
 
     override fun bindingAction() {

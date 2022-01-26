@@ -3,6 +3,7 @@ package com.vht_iot.vsmartsdk.future.user_manager
 import android.content.Context
 import android.util.Log
 import com.vht_iot.vsmartsdk.future.group_manager.GroupManager
+import com.vht_iot.vsmartsdk.future.organization.OrganizationManager
 import com.vht_iot.vsmartsdk.network.connect.ApiInterface
 import com.vht_iot.vsmartsdk.network.data.ErrorCode
 import com.vht_iot.vsmartsdk.network.data.ResultApi
@@ -96,10 +97,14 @@ class UserManager() {
 //                    sucess(ResultApi.VSmartSuccess(loginResponse))
 
                     //create group
-                    VConfigUtils.USER_ID = loginResponse.userId
+                   /* VConfigUtils.USER_ID = loginResponse.userId
                     GroupManager.getInstance().getGroupByName(
                         phone,
                         VDefine.EntityType.ORGANIZATION,
+                        sucess, failt
+                    )*/
+                    //create org
+                    OrganizationManager.getInstance().addOrgDefault(
                         sucess, failt
                     )
                 }

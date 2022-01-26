@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/createHomeFragment"
-        android:name="com.example.setting.ui.create_home.CreateRoomFragment"
+        android:name="com.example.setting.ui.create_home.CreateHomeFragment"
         android:label="CreateHomeFragment" />
     <fragment
         android:id="@+id/listHomeFragment"

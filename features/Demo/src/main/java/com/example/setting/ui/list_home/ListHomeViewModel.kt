@@ -18,10 +18,9 @@ class ListHomeViewModel @Inject constructor(
     val errorResponse: MutableLiveData<ResultApi<String>> = MutableLiveData()
 
     fun loadDataDevice() {
-
         OrganizationManager.getInstance().getOrganizations(sucess = {
             viewModelScope.launch {
-                listHomeResponse.value = it.data?.dataResponse?.filter { it.org_id.isEmpty() }
+                listHomeResponse.value = it.data?.dataResponse
             }
         }, failt = {
             errorResponse.value = it

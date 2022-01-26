@@ -12,13 +12,10 @@ interface ApiInterface {
     @DELETE("/v2/user/logout")
     suspend fun logout(): ApiObjectResponse<Any>
 
-    @GET("/api/devices")
-    suspend fun getListDevice(): DeviceResponse
-
     @POST("/api/app/otp")
     suspend fun sendVerificationCode(@Body requestBody: RequestBody): VOTPPhoneResponse
 
-    @PUT("/api/app/vhome/register")
+    @POST("/api/app/vhome/register")
     suspend fun registerUserWithPhone(@Body requestBody: RequestBody): Any
 
     @PUT("/api/app/otp/newpassword")
@@ -47,9 +44,14 @@ interface ApiInterface {
     @POST("/api/organizations")
     suspend fun createOrganizations(@Body requestBody: RequestBody): VOrganizationResponse
 
-    @GET("/api/organizations")
+    @GET("/api/organizations/expand")
     suspend fun getOrganizations(
-        @QueryMap data: Map<String, String>
     ): ApiArrayOrgResponse<VOrganizationResponse>
 
+    // device manager
+    @GET("/api/devices")
+    suspend fun addDevice(@Body requestBody: RequestBody): Device
+
+    @GET("/api/devices")
+    suspend fun getListDevice(): DeviceResponse
 }

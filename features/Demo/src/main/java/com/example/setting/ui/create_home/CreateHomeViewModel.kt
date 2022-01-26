@@ -14,14 +14,15 @@ class CreateHomeViewModel @Inject constructor(
 
     val responseOrganization: MutableLiveData<ResultApi<VOrganizationResponse>> = MutableLiveData()
     val responseEror: MutableLiveData<ResultApi<String>> = MutableLiveData()
-    fun createHome(homeName: String, description: String) {
+
+    fun createHome(homeName: String, address: String) {
         isLoading.value = true
         OrganizationManager.getInstance().createOrganizations(
-            "",
-            "",
-            homeName,
-            description,
-            sucess = {
+            name = homeName,
+            lat = 20.908358,
+            lon = 105.7887,
+            address = address,
+            success = {
                 isLoading.value = false
                 responseOrganization.value = it
             },
