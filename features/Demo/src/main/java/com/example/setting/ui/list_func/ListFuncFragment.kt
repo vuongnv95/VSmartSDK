@@ -24,7 +24,7 @@ class ListFuncFragment : BaseFragment<FragmentListDeviceBinding, ListFuncViewMod
 
 
     val deviceAdapter: ListFuncAdapter by lazy {
-        ListFuncAdapter({
+        ListFuncAdapter {
             if (!isDoubleClick) {
                 when (it.action) {
                     Defines.ACTION_HOME -> {
@@ -36,7 +36,7 @@ class ListFuncFragment : BaseFragment<FragmentListDeviceBinding, ListFuncViewMod
                     }
                 }
             }
-        })
+        }
     }
 
     override fun initView(savedInstanceState: Bundle?) {

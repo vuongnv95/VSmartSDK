@@ -6,23 +6,20 @@ import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiInterface {
-    @POST("/api/login")
+    @POST("/api/app/login")
     suspend fun login(@Body requestBody: RequestBody): LoginResponse
 
     @DELETE("/v2/user/logout")
     suspend fun logout(): ApiObjectResponse<Any>
 
-    @GET("/api/devices")
-    suspend fun getListDevice(): DeviceResponse
+    @POST("/api/app/otp")
+    suspend fun sendVerificationCode(@Body requestBody: RequestBody): VOTPPhoneResponse
 
-    @POST("/api/users/otp/register")
-    suspend fun sendVerificationCodeRegister(@Body requestBody: RequestBody): VOTPPhoneResponse
-
-    @POST("/api/users/otp/register")
-    suspend fun sendVerificationCodeForgetPassword(@Body requestBody: RequestBody): VOTPPhoneResponse
-
-    @PUT("/api/users/otp/newpassword")
+    @POST("/api/app/vhome/register")
     suspend fun registerUserWithPhone(@Body requestBody: RequestBody): Any
+
+    @PUT("/api/app/otp/newpassword")
+    suspend fun forgotPassword(@Body requestBody: RequestBody): Object
 
     @POST("/api/users")
     suspend fun registerUserWithEmail(@Body requestBody: RequestBody): RegisterWithEmailResponse
@@ -47,9 +44,14 @@ interface ApiInterface {
     @POST("/api/organizations")
     suspend fun createOrganizations(@Body requestBody: RequestBody): VOrganizationResponse
 
-    @GET("/api/organizations")
+    @GET("/api/organizations/expand")
     suspend fun getOrganizations(
-        @QueryMap data: Map<String, String>
     ): ApiArrayOrgResponse<VOrganizationResponse>
 
+    // device manager
+    @GET("/api/devices")
+    suspend fun addDevice(@Body requestBody: RequestBody): Device
+
+    @GET("/api/devices")
+    suspend fun getListDevice(): DeviceResponse
 }

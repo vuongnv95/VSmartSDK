@@ -2,7 +2,6 @@ package com.example.setting.ui.create_home
 
 import androidx.lifecycle.MutableLiveData
 import com.example.core.base.BaseViewModel
-import com.vht_iot.vsmartsdk.future.organization.OrganizationManager
 import com.vht_iot.vsmartsdk.network.data.ResultApi
 import com.vht_iot.vsmartsdk.network.data.VOrganizationResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,18 +13,17 @@ class CreateRoomViewModel @Inject constructor(
 
     val responseOrganization: MutableLiveData<ResultApi<VOrganizationResponse>> = MutableLiveData()
     val responseEror: MutableLiveData<ResultApi<String>> = MutableLiveData()
-    fun createRoom(
+
+    /*fun createRoom(
         vOrganizationResponse: VOrganizationResponse?,
         homeName: String,
-        description: String
+        address: String
     ) {
         isLoading.value = true
         OrganizationManager.getInstance().createOrganizations(
-            "",
-            vOrganizationResponse?.id ?: "",
-            homeName,
-            description,
-            sucess = {
+            name = homeName,
+            address = address,
+            success = {
                 isLoading.value = false
                 responseOrganization.value = it
             },
@@ -33,6 +31,6 @@ class CreateRoomViewModel @Inject constructor(
                 isLoading.value = false
                 responseEror.value = it
             })
-    }
+    }*/
 
 }

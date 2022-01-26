@@ -1,6 +1,5 @@
 package com.example.setting.ui.create_home
 
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.example.core.base.BaseFragment
 import com.example.core.utils.toastMessage
@@ -21,11 +20,6 @@ class CreateHomeFragment : BaseFragment<FragmentCreateHomeBinding, CreateHomeVie
     private val viewModel: CreateHomeViewModel by viewModels()
     override fun getVM() = viewModel
 
-    override fun initView(savedInstanceState: Bundle?) {
-        super.initView(savedInstanceState)
-
-    }
-
     override fun setOnClick() {
         super.setOnClick()
         binding.btnDone.setOnClickListener {
@@ -36,7 +30,7 @@ class CreateHomeFragment : BaseFragment<FragmentCreateHomeBinding, CreateHomeVie
                 }
                 viewModel.createHome(
                     binding.etHomeName.text.toString().trim(),
-                    binding.etDescription.text.toString().trim()
+                    binding.etAddress.text.toString().trim()
                 )
             }
         }

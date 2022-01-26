@@ -11,32 +11,33 @@ class VDefine {
         const val PARAM_PASSWORD = "password"
         const val PARAM_IDENTIFIER = "identifier"
         var useAddminToken = false
+        var useAppKeySecret = false
         const val PREF_FILE_NAME = "SDK_IOT.Preferences"
     }
 
-    class  ConfigSDK{
-        companion object{
-            var BASE_URL = "http://116.101.122.190:4437"
-            var APP_ID = "BASE_URL"
-            var APP_SCERET_KEY = "BASE_URL"
+    class ConfigSDK {
+        companion object {
+            var BASE_URL = "http://125.212.248.229:4437"
+            var APP_KEY = "nlaDOC8uS6Xn7L0JIcPD"
+            var APP_SECRET = "yKeMoImiHp9DUXxoGpERza31xSyCWunW"
         }
     }
 
-    class EndPointBE{
-        companion object{
+    class EndPointBE {
+        companion object {
             const val LOGIN = "/api/login"
         }
     }
 
-    class ConfigNetwork{
-        companion object{
+    class ConfigNetwork {
+        companion object {
             const val DEFAULT_TIMEOUT = 30
             const val READ_TIMEOUT = 10
         }
     }
 
-    class ParamApi{
-        companion object{
+    class ParamApi {
+        companion object {
             const val PARAM_IDENTIFIER = "identifier"
             const val PARAM_PASSWORD = "password"
             const val PARAM_EMAIL = "email"
@@ -49,23 +50,53 @@ class VDefine {
             const val PARAM_ORG_ID = "org_id"
             const val PARAM_USER_ID = "user_id"
             const val PARAM_DESCRIPTION = "description"
+            const val PARAM_OTP_TYPE = "otp_type"
+            const val PARAM_ATTRIBUTE = "attributes"
         }
     }
 
-    class OTPType{
-        companion object{
-            const val REGISTER = 0
-            const val RESET_PASSWORD = 1
+    class OTPType {
+        companion object {
+            const val REGISTER = "register"
+            const val RESET_PASSWORD = "forgot"
         }
     }
-    class EntityType{
-        companion object{
+
+    class EntityType {
+        companion object {
             const val ORGANIZATION = "ORGANIZATION"
             const val DEVICE = "DEVICE"
             const val EVENT = "EVENT"
             const val USER = "USER"
         }
     }
+
+    class ScopeType {
+        companion object {
+            const val SCOPE_SERVER = "SCOPE_SERVER"
+            const val SCOPE_SHARE = "SCOPE_SHARE"
+            const val SCOPE_CLIENT = "SCOPE_CLIENT"
+        }
+    }
+
+    class AttributeKey {
+        companion object {
+            const val LAT = "latitude"
+            const val LONG = "longtitude"
+            const val ADDRESS = "address"
+        }
+    }
+
+    class ValueType {
+        companion object {
+            const val STR = "STR"
+            const val BOOL = "BOOL"
+            const val LONG = "LONG"
+            const val DBL = "DBL"
+            const val JSON = "JSON"
+        }
+    }
+
 }
 
 fun createBodyMap(data: MutableMap<String, String>): RequestBody {
@@ -76,6 +107,14 @@ fun createBodyMap(data: MutableMap<String, String>): RequestBody {
     val body: RequestBody =
         RequestBody.create(
             "application/json".toMediaTypeOrNull(), jsonObject.toString()
+        )
+    return body
+}
+
+fun createBodyMap(data: String): RequestBody {
+    val body: RequestBody =
+        RequestBody.create(
+            "application/json".toMediaTypeOrNull(), data
         )
     return body
 }

@@ -41,11 +41,11 @@ class CreateRoomFragment : BaseFragment<FragmentCreateRoomBinding, CreateRoomVie
                     toastMessage("Kiểm tra lại thông tin")
                     return@setOnClickListener
                 }
-                viewModel.createRoom(
-                    vOrganizationResponse,
-                    binding.etHomeName.text.toString().trim(),
-                    binding.etDescription.text.toString().trim()
-                )
+//                viewModel.createRoom(
+//                    vOrganizationResponse,
+//                    binding.etHomeName.text.toString().trim(),
+//                    binding.etDescription.text.toString().trim()
+//                )
             }
         }
     }

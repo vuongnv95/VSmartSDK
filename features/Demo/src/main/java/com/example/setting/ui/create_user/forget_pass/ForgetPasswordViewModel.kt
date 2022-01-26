@@ -11,55 +11,54 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ForgetPasswordViewModel @Inject constructor(
-    private val apiInterface: ApiInterface
 ) : BaseViewModel() {
-    val statusRegister: MutableLiveData<ResultApi<String>> = MutableLiveData()
+    val statusForgotPassword: MutableLiveData<ResultApi<String>> = MutableLiveData()
     val registerCode: MutableLiveData<ResultApi<String>> = MutableLiveData()
 
     fun sendVerificationCode(identity: String) {
         isLoading.value = true
         UserManager.getInstance().sendVerificationCode(
             identity,
-           VDefine.OTPType.RESET_PASSWORD,
+            VDefine.OTPType.RESET_PASSWORD,
             sucess = {
-                    isLoading.value = false
-                    registerCode.value = it
+                isLoading.value = false
+                registerCode.value = it
             },
             failt = {
-                    isLoading.value = false
-                    registerCode.value = it
+                isLoading.value = false
+                registerCode.value = it
             })
     }
 
     fun handleChangePassword(identity: String, pass: String, passCode: String) {
         isLoading.value = true
-        UserManager.getInstance().register(
+        UserManager.getInstance().changePassword(
             identity,
             pass,
             passCode,
             sucess = {
-                    isLoading.value = false
-                    statusRegister.value = it
+                isLoading.value = false
+                statusForgotPassword.value = it
             },
             failt = {
-                    isLoading.value = false
-                    statusRegister.value = it
+                isLoading.value = false
+                statusForgotPassword.value = it
             })
     }
 
-    fun handleRegisterEmail( identity: String, pass: String) {
+    fun handleRegisterEmail(identity: String, pass: String) {
         isLoading.value = true
         VDefine.useAddminToken = true
         UserManager.getInstance().registerUserWithEmail(
             identity,
             pass,
             sucess = {
-                    isLoading.value = false
-                    statusRegister.value = it
+                isLoading.value = false
+                statusForgotPassword.value = it
             },
             failt = {
-                    isLoading.value = false
-                    statusRegister.value = it
+                isLoading.value = false
+                statusForgotPassword.value = it
             })
     }
 }
