@@ -105,6 +105,7 @@ class UserManager() {
                     )*/
                     //create org
                     OrganizationManager.getInstance().addOrgDefault(
+                        context,
                         sucess, failt
                     )
                 }
@@ -133,7 +134,7 @@ class UserManager() {
                 val body = createBodyMap(data)
                 val loginResponse = apiInterface?.login(body)
                 loginResponse?.let {
-                    AppPreferences.getInstance(context).setAddminToken(it.token)
+                    AppPreferences.getInstance(context).setAdminToken(it.token)
                     mainScope.launch {
                         sucess(ResultApi.VSmartSuccess(it.token))
                     }

@@ -60,4 +60,12 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_listRoomFragment_to_createRoomFragment, bundle)
     }
 
+    override fun openListFuncToEZModeDevice(bundle: Bundle?) {
+        openScreen(R.id. action_listFuncFragment_to_ezModeFragment, bundle)
+    }
+
+    override fun openListFuncToAPModeDevice(bundle: Bundle?) {
+        openScreen(R.id. action_listFuncFragment_to_apModeFragment, bundle)
+    }
+
 }

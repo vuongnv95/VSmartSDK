@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import com.vht_iot.vsmartsdk.utils.VDefine
 
 
-class AppPreferences  constructor(
+class AppPreferences constructor(
      context: Context
 ) : RxPreferences {
 
@@ -15,7 +15,8 @@ class AppPreferences  constructor(
         const val PREF_PARAM_EMAIL = "PREF_PARAM_EMAIL"
         const val PREF_PARAM_PASSWORD = "PREF_PARAM_PASSWORD"
         const val PREF_PARAM_DEVICE_TOKEN = "PREF_PARAM_DEVICE_TOKEN"
-        const val PREF_PARAM_ADDMIN_TOKEN = "PREF_PARAM_ADDMIN_TOKEN"
+        const val PREF_PARAM_ADMIN_TOKEN = "PREF_PARAM_ADDMIN_TOKEN"
+        const val PREF_PARAM_CURRENT_HOME = "PREF_PARAM_CURRENT_HOME"
 
         @Volatile
         private var instance: AppPreferences? = null
@@ -51,16 +52,28 @@ class AppPreferences  constructor(
 
     override fun setUserToken(userToken: String, deviceToken: String) {
         put(PREF_PARAM_USER_INFO, PARAM_BEARER + userToken)
-        if (!deviceToken.isEmpty()) {
+        if (deviceToken.isNotEmpty()) {
             put(PREF_PARAM_DEVICE_TOKEN, deviceToken)
         }
     }
 
-    override fun setAddminToken(token: String) {
+    override fun setAdminToken(token: String) {
         val editor: SharedPreferences.Editor = mPrefs.edit()
-        editor.putString(PREF_PARAM_ADDMIN_TOKEN, PARAM_BEARER + token)
+        editor.putString(PREF_PARAM_ADMIN_TOKEN, PARAM_BEARER + token)
         editor.apply()
     }
 
-    override fun getAddminToken(): String? = get(PREF_PARAM_ADDMIN_TOKEN)
+    override fun getAdminToken(): String? = get(PREF_PARAM_ADMIN_TOKEN)
+
+    override fun setCurrentHome(homeId: String) {
+        val editor: SharedPreferences.Editor = mPrefs.edit()
+        editor.putString(PREF_PARAM_CURRENT_HOME, homeId)
+        editor.apply()
+    }
+
+    override fun getCurrentHome(): String? = get(PREF_PARAM_CURRENT_HOME)
+    override fun getDeviceToken(): String? {
+        return mPrefs.getString(PREF_PARAM_PASSWORD, "")
+    }
+
 }

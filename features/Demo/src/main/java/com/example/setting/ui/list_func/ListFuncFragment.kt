@@ -3,7 +3,6 @@ package com.example.setting.ui.list_func
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.example.core.base.BaseFragment
-import com.example.core.utils.toastMessage
 import com.example.setting.HomeNavigation
 import com.example.setting.R
 import com.example.setting.databinding.FragmentListDeviceBinding
@@ -22,7 +21,6 @@ class ListFuncFragment : BaseFragment<FragmentListDeviceBinding, ListFuncViewMod
     private val viewViewModel: ListFuncViewModel by viewModels()
     override fun getVM() = viewViewModel
 
-
     val deviceAdapter: ListFuncAdapter by lazy {
         ListFuncAdapter {
             if (!isDoubleClick) {
@@ -30,9 +28,14 @@ class ListFuncFragment : BaseFragment<FragmentListDeviceBinding, ListFuncViewMod
                     Defines.ACTION_HOME -> {
                         appNavigation.openListFuncToCreateHome()
                     }
-
                     Defines.ACTION_LIST_HOME -> {
                         appNavigation.openListFuncToListHome()
+                    }
+                    Defines.ACTION_EZ_MODE -> {
+                        appNavigation.openListFuncToEZModeDevice()
+                    }
+                    Defines.ACTION_AP_MODE -> {
+                        appNavigation.openListFuncToAPModeDevice()
                     }
                 }
             }
