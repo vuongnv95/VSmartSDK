@@ -21,7 +21,8 @@ class ListFuncViewModel @Inject constructor(
         listFunc.add(FuncData(1, Defines.ACTION_LIST_HOME, "Danh sách nhà", ""))
 
         listFunc.add(FuncData(0, 1, "Quản lý thiết bị", ""))
-        listFunc.add(FuncData(1, 1, "Thêm thiết bị", ""))
+        listFunc.add(FuncData(1, Defines.ACTION_EZ_MODE, "Thêm thiết bị EZ mode", ""))
+        listFunc.add(FuncData(1, Defines.ACTION_AP_MODE, "Thêm thiết bị AP mode", ""))
         listFunc.add(FuncData(1, 1, "Danh sách thiết bị", ""))
         funcListResponse.value = listFunc
     }

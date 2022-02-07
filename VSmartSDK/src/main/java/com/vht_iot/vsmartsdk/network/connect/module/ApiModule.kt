@@ -60,7 +60,7 @@ class ApiModule(private val context: Context, private val url: String) {
             .addInterceptor(Interceptor { chain: Interceptor.Chain ->
                 val request =
                     if (!TextUtils.isEmpty(
-                            AppPreferences.getInstance(context).getAddminToken()
+                            AppPreferences.getInstance(context).getAdminToken()
                         ) && VDefine.useAddminToken
                     ) {
                         VDefine.useAddminToken = false
@@ -70,7 +70,7 @@ class ApiModule(private val context: Context, private val url: String) {
                             .header("Content-Type", "text/plain; charset=utf-8")
                             .addHeader(
                                 "Authorization",
-                                AppPreferences.getInstance(context).getAddminToken()!!
+                                AppPreferences.getInstance(context).getAdminToken()!!
                             )
                             .build()
                     } else if (VDefine.useAppKeySecret) {

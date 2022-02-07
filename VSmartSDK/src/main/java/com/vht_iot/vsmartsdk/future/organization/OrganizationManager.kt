@@ -1,5 +1,6 @@
 package com.vht_iot.vsmartsdk.future.organization
 
+import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
 import com.vht_iot.vsmartsdk.network.connect.ApiArrayOrgResponse
@@ -13,13 +14,11 @@ import com.vht_iot.vsmartsdk.sdk_config.SDKConfig
 import com.vht_iot.vsmartsdk.utils.HandleError
 import com.vht_iot.vsmartsdk.utils.VDefine
 import com.vht_iot.vsmartsdk.utils.createBodyMap
+import com.viettel.vht.core.pref.AppPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody
-import org.json.JSONArray
 
 class OrganizationManager {
 
@@ -44,6 +43,7 @@ class OrganizationManager {
     }
 
     fun addOrgDefault(
+        context: Context,
         success: (ResultApi<String>) -> Unit,
         failt: (ResultApi<String>) -> Unit
     ) {
@@ -62,6 +62,7 @@ class OrganizationManager {
                         data.put(VDefine.ParamApi.PARAM_NAME, "My Home")
                         val addOrgResponse = apiInterface?.createOrganizations(createBodyMap(data))
                         addOrgResponse?.let {
+                            AppPreferences.getInstance(context).setCurrentHome(it.id)
                             mainScope.launch {
                                 success(
                                     ResultApi.VSmartSuccess(
@@ -71,6 +72,8 @@ class OrganizationManager {
                             }
                         }
                     } else {
+                        AppPreferences.getInstance(context)
+                            .setCurrentHome(orgResponse.dataResponse[0].id)
                         mainScope.launch {
                             success(
                                 ResultApi.VSmartSuccess(

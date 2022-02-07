@@ -24,7 +24,6 @@ interface ApiInterface {
     @POST("/api/users")
     suspend fun registerUserWithEmail(@Body requestBody: RequestBody): RegisterWithEmailResponse
 
-
     // group manager
 
     @GET("/api/groups/{groupName}/{entityType}")
@@ -54,4 +53,39 @@ interface ApiInterface {
 
     @GET("/api/devices")
     suspend fun getListDevice(): DeviceResponse
+
+    //config ap device
+    @Headers(
+        "Accept: application/json",
+        "Content-Type: application/json;charset=UTF-8",
+        "Package-Name: com.coolkit",
+        "Cache-Control: no-store"
+    )
+    @GET
+    suspend fun sendRequestToDevice(@Url url: String): DeviceInfoResponse
+
+    @Headers(
+        "Accept: application/json",
+        "Content-Type: application/json;charset=UTF-8",
+        "Package-Name: com.coolkit",
+        "Cache-Control: no-store"
+    )
+    @POST
+    suspend fun sendDataToDispatchServer(
+        @Url url: String,
+        @Body requestBody: RequestBody
+    ): ApiObjectResponse<Object>
+
+    @POST
+    @FormUrlEncoded
+    suspend fun sendRequestCompatible(
+        @Url url: String,
+        @Field("s1") ssid: String,
+        @Field("p1") password: String,
+        @Field("save") save: String = ""
+    ): DeviceInfoResponse
+
+    @GET
+    suspend fun restartDevice(@Url url: String): Object
+
 }

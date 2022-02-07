@@ -2,4 +2,12 @@
 
     <string name="register"><u>Đăng kí ngay!</u></string>
     <string name="forget_pass"><u>Quên mật khẩu!</u></string>
+
+    <string name="message_permission">APP require Location permission to get Wi-Fi information. \nClick to request permission</string>
+    <string name="message_location">Please turn on GPS to get Wi-Fi information.</string>
+    <string name="message_wifi_connection">Please connect Wi-Fi first.</string>
+    <string name="message_wifi_frequency">Current Wi-Fi connection is 5G, but the device just support 2.4G.</string>
+    <string name="location_permission_message">On Android M or higher version, App can\'t get Wi-Fi connection information if you forbid Location permission.</string>
+    <string name="wifi_5g_message">Device don\'t support 5G Wi-Fi, please make sure the currently connected Wi-Fi is 2.4G, or you can try multicast</string>
+
 </resources>

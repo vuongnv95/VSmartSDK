@@ -54,6 +54,7 @@ dependencies {
 
     implementation libraries.hilt
     implementation project(path: ':VSmartSDK')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt libraries.hiltSupport
     //implementation libraries.hiltViewModel
     //kapt libraries.hiltCompiler
@@ -81,5 +82,6 @@ dependencies {
     implementation 'androidx.asynclayoutinflater:asynclayoutinflater:1.0.0'
     // https://mvnrepository.com/artifact/com.github.PhilJay/MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
+    implementation 'com.github.EspressifApp:lib-esptouch-android:1.0.0'
+    implementation 'com.github.EspressifApp:lib-esptouch-v2-android:2.1.0'
 }

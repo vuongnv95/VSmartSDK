@@ -52,6 +52,7 @@ class VDefine {
             const val PARAM_DESCRIPTION = "description"
             const val PARAM_OTP_TYPE = "otp_type"
             const val PARAM_ATTRIBUTE = "attributes"
+            const val PARAM_DEVICE_TOKEN = "devicetoken"
         }
     }
 
@@ -84,6 +85,16 @@ class VDefine {
             const val LAT = "latitude"
             const val LONG = "longtitude"
             const val ADDRESS = "address"
+            const val TYPE = "type"
+            const val GATEWAY_ID = "gateway_id"
+            const val VENDOR = "vendor"
+            const val DEVICE_ID = "device_id"
+            const val PRODUCT_NAME = "product_name"
+            const val END_POINT = "endpoint"
+            const val IP = "ip"
+            const val DEVICE_SERIAL = "device_serial"
+            const val PROTOCOL = "protocol"
+            const val IR_TYPE = "ir_type"
         }
     }
 
@@ -95,6 +106,12 @@ class VDefine {
             const val DBL = "DBL"
             const val JSON = "JSON"
         }
+    }
+
+    enum class Status {
+        PENDING,
+        RUNNING,
+        FINISHED
     }
 
 }
